@@ -28,45 +28,49 @@ def sample_match(sent, query, target_pos):
     else:
         return False
 
-json_path = "data/fiction-tokenized.json"
-usage_path = "data/usages.json"
-
 query = sys.argv[1]
-verbose = True
-target_pos = ["NOUN", "PROPN"]
 
-# Import tokenized fiction corpus
-with open(json_path, "rb") as f:
-    tokenized_json = json.load(f)
+json_path = "data/"
+usage_path = "result/usages.json"
+
+verbose = False
+target_pos = ["NOUN", "PROPN"]
 
 doc_cnt = 0
 sent_cnt = 0
 
+# Import tokenized fiction corpus
+fiction_list = [_ for _ in os.listdir("data") if _.endswith(".txt")]
 coca_dict = defaultdict(list)
+
 print('Query:', query)
 
-for doc in tokenized_json:
-    doc = Document(doc)
-    doc_cnt += 1
-    for i_sent, sent in enumerate(tqdm(doc.sentences)):
-        sent_cnt += 1
-        if sample_match(sent, query, target_pos):
-            sent_curr = get_text(sent)
-            if verbose:
-                print('-------')
-                print(sent_curr)
-            if i_sent > 1:
-                sent_before = get_text(doc.sentences[i_sent-1])
+for fiction in fiction_list:
+    with open(json_path + fiction, "rb") as f:
+        tokenized_json = json.load(f)
+
+    for doc in tqdm(tokenized_json, leave=False):
+        doc = Document(doc)
+        doc_cnt += 1
+        for i_sent, sent in enumerate(doc.sentences):
+            sent_cnt += 1
+            if sample_match(sent, query, target_pos):
+                sent_curr = get_text(sent)
+                if verbose:
+                    print('-------')
+                    print(sent_curr)
+                if i_sent > 1:
+                    sent_before = get_text(doc.sentences[i_sent-1])
+                else:
+                    sent_before = ''
+                if i_sent < len(doc.sentences)-1:
+                    sent_next = get_text(doc.sentences[i_sent+1])
+                else:
+                    sent_next = ''
+                cdoc = {'sent_before': sent_before, 'sent_curr': sent_curr, 'sent_next': sent_next}
+                coca_dict[query].append(cdoc)
             else:
-                sent_before = ''
-            if i_sent < len(doc.sentences)-1:
-                sent_next = get_text(doc.sentences[i_sent+1])
-            else:
-                sent_next = ''
-            cdoc = {'sent_before': sent_before, 'sent_curr': sent_curr, 'sent_next': sent_next}
-            coca_dict[query].append(cdoc)
-        else:
-            continue
+                continue
 
 print("# documents: {}".format(str(doc_cnt)))
 print("# sentences: {}".format(str(sent_cnt)))
@@ -83,9 +87,9 @@ with open(usage_path, "w") as j:
     json.dump(new_dict, j, indent=4)
 
 
-# with open("results/" + query + ".txt", "w") as f:
-#     for doc in coca_dict[query]:
-#         line = ' | '.join([doc.sent_before, doc.sent_curr, doc.sent_next])
-#         f.writelines(line + '\n')
-
+# Write a separate result file for a query
+with open("result/" + query + ".txt", "w") as f:
+    for doc in coca_dict[query]:
+        line = ' | '.join([doc['sent_before'], doc['sent_curr'], doc['sent_next']])
+        f.writelines(line + '\n')
 

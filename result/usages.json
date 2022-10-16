@@ -1,0 +1,24 @@
+{
+    "call": [
+        {
+            "sent_before": "So one might say that the Order of the Eye is a species of benign gerontocracy .",
+            "sent_curr": "So for my first two decades and more , I was more or less content to perform such duties while awaiting a call to heed , though I can not claim that I had no impatience to join in the excitement as true participant .",
+            "sent_next": "More and more extrasolar civilizations were being discovered , so that the mere ever-increasing number count was beginning to be taken as boringly irrelevant down below , much as the discovery of more and more extrasolar biospheres in an earlier age , and more and more extrasolar planets in the so-called \" Golden Age of Astronomy \" before that ."
+        },
+        {
+            "sent_before": "The state coroner was traveling in the area , and stopped at the reservation to expedite the paperwork .",
+            "sent_curr": "Zack had been struggling with this side of things when the call about Dusty came in .",
+            "sent_next": "He paused to put his head on the desk before he called Georgie , who would persuade the coroner to stay a few more hours and examine the child so that the family could have an immediate funeral ."
+        },
+        {
+            "sent_before": "",
+            "sent_curr": "Late one July evening in 1994 , Red and Abby Whitshank had a phone call from their son Denny .",
+            "sent_next": "They were getting ready for bed at the time ."
+        },
+        {
+            "sent_before": "What did you talk about ? \"",
+            "sent_curr": "Abby demanded , and Red said , \" I told him his textbooks had to come out of his earnings . \" \" I mean , did you talk about that last phone call ?",
+            "sent_next": "Did you apologize ?"
+        }
+    ]
+}
